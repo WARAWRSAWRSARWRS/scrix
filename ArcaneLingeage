@@ -1,0 +1,814 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Player = game.Players.LocalPlayer
+local Character = Player.Character
+local Humanoid = Character:WaitForChild("Humanoid")
+
+local Window = Rayfield:CreateWindow({
+	Name = "Red's Scripts",
+	Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+	LoadingTitle = "Script Hub",
+	LoadingSubtitle = "by Red",
+	Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+	DisableRayfieldPrompts = false,
+	DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+	ConfigurationSaving = {
+		Enabled = true,
+		FolderName = nil, -- Create a custom folder for your hub/game
+		FileName = "Big Hub"
+	},
+
+	Discord = {
+		Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+		Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+		RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+	},
+
+	KeySystem = false, -- Set this to true to use our key system
+	KeySettings = {
+		Title = "Untitled",
+		Subtitle = "Key System",
+		Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
+		FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+		SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+		GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+		Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+	}
+})
+
+
+
+
+local Tab = Window:CreateTab("Character", "rewind")
+
+local Section = Tab:CreateSection("CharacterValues")
+
+local Slider = Tab:CreateSlider({
+	Name = "WalkSpeedChanger",
+	Range = {0, 100},
+	Increment = 10,
+	Suffix = "WalkSpeed",
+	CurrentValue = 10,
+	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Value)
+
+		Humanoid.WalkSpeed = Value
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Auto Magic Cast",
+	Callback = function()
+		while task.wait() do
+			local args = {
+				[1] = {
+					[1] = true,
+					[2] = true
+				},
+				[2] = "MagicQTE"
+			}
+
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Information"):WaitForChild("RemoteFunction"):FireServer(unpack(args))
+		end
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Auto Dagger Cast",
+	Callback = function()
+		while task.wait() do
+			local args = {
+				[1] = {
+					[1] = true,
+					[2] = true
+				},
+				[2] = "DaggerQTE"
+			}
+
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Information"):WaitForChild("RemoteFunction"):FireServer(unpack(args))
+		end
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Auto Fist Cast",
+	Callback = function()
+		while task.wait() do
+			local args = {
+				[1] = {
+					[1] = true,
+					[2] = true
+				},
+				[2] = "FistQTE"
+			}
+
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Information"):WaitForChild("RemoteFunction"):FireServer(unpack(args))
+		end
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Auto Sword Cast",
+	Callback = function()
+		while task.wait() do
+			local args = {
+				[1] = {
+					[1] = true,
+					[2] = true
+				},
+				[2] = "SwordQTE"
+			}
+
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Information"):WaitForChild("RemoteFunction"):FireServer(unpack(args))
+		end
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Auto Spear Cast",
+	Callback = function()
+		while task.wait() do
+			local args = {
+				[1] = {
+					[1] = true,
+					[2] = true
+				},
+				[2] = "SpearQTE"
+			}
+
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Information"):WaitForChild("RemoteFunction"):FireServer(unpack(args))
+		end
+
+
+
+	end,
+})
+
+
+local Button = Tab:CreateButton({
+	Name = "AutoDodge",
+	Callback = function()
+		while task.wait() do
+			local args = {
+				[1] = {
+					[1] = true,
+					[2] = true
+				},
+				[2] = "DodgeMinigame"
+			}
+
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Information"):WaitForChild("RemoteFunction"):FireServer(unpack(args))
+		end
+
+
+
+	end,
+})
+
+local Section = Tab:CreateSection("Classes")
+
+
+local Button = Tab:CreateButton({
+	Name = "Sword",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Temp.Ysa
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Section = Tab:CreateSection("Super Classes")
+local Button = Tab:CreateButton({
+	Name = "Elementalist",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Landrum
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Rouge",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Aberon
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Monk",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Temp.Luther
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Tab = Window:CreateTab("Teleports", "rewind")
+
+local Section = Tab:CreateSection("Npc Teleports")
+
+
+local Button = Tab:CreateButton({
+	Name = "Bank",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Banker
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Merchant",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Merchant
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "BlackSmith",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Blacksmith
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Doctor",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Doctor
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Apothecarian",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Apothecarian
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Section = Tab:CreateSection("Ore Tp (If It Doesn't work, It's not spawned.)")
+
+local Button = Tab:CreateButton({
+	Name = "Aestic Ore",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.Ores.Aestic.Ore
+
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Ferrus Ore",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.Ores.Ferrus.Ore
+
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Laneus Ore (Will bug the fuck out of you)",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.Ores.Laneus.Ore
+
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+
+local Section = Tab:CreateSection("Locations")
+
+local Button = Tab:CreateButton({
+	Name = "Amoran Chasm",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Amoran Chasm"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Caldera Town",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Caldera Town"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 100, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Cess Grounds",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Cess Grounds"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Chamber of Malice",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Chamber of Malice"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Cursed Cave",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Cursed Cave"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "DeepDepths Passage",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["DeepDepths Passage"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Deeproot Canopy",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Deeproot Canopy"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Mount Thul",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.AreaRegions.Areas["Mount Thul"]
+
+		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+
+local Button = Tab:CreateButton({
+	Name = "Meditate",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+
+		local targetCFrame = CFrame.new(5106.93213, 657.993408, -4276.05127, -0.554283798, -1.09398151e-07, -0.832327724, -6.2665066e-08, 1, -8.97049546e-08, 0.832327724, 2.43587017e-09, -0.554283798)
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		local player = game.Players.LocalPlayer
+		print("Player Name: " .. player.Name)
+		task.wait(1.3)
+		game.workspace.Living.Friday2010rah.MeditateHandler.Meditate:FireServer()
+		game.workspace.Living.Friday2010rah.MeditateHandler.Meditate:FireServer()
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Tab = Window:CreateTab("AutoFarm", "rewind")
+
+local Section = Tab:CreateSection("Plants")
+
+local Button = Tab:CreateButton({
+	Name = "Eversthile",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+
+		local targetCFrame = game.Workspace.SpawnedItems.Everthistle.Handle.CFrame
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+	
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Carastool",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+
+		local targetCFrame = game.Workspace.SpawnedItems.Carnastool.Handle.CFrame
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Cryastem",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+
+		local targetCFrame = game.Workspace.SpawnedItems.Cryastem.Handle.CFrame
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Section = Tab:CreateSection("Quest")
+
+local Button = Tab:CreateButton({
+	Name = "Byfra(Potion Quest Chatoic/Orderly)",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Quest.Byfra
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Poira(Delivery Quest Orderly) --PART 1",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Quest.Poira
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+local Button = Tab:CreateButton({
+	Name = "Jeith(Delivery Quest Orderly) --PART 2",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Quest.Jeith
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
+
+
+local Button = Tab:CreateButton({
+	Name = "Hyori(Sand Core Neutral)",
+	Callback = function()
+		local TweenService = game:GetService("TweenService")
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local hrp = character:WaitForChild("HumanoidRootPart") -- Player's root part
+		local npc = game.Workspace.NPCs.Quest.Horiya
+		local npcHrp = npc:WaitForChild("HumanoidRootPart") -- NPC's root part
+
+		local targetCFrame = npcHrp.CFrame * CFrame.new(0, 0, -3) -- Offset behind NPC
+
+		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
+		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+
+		tween:Play()
+
+
+
+	end,
+})
