@@ -442,7 +442,7 @@ local Button = Tab:CreateButton({
 		local npc = game.Workspace.Ores.Laneus.Ore
 
 
-		local targetCFrame = npc.CFrame * CFrame.new(0, 5, 0) -- Offset behind NPC
+		local targetCFrame = CFrame.new(-408.978149, 217.013275, -12763.8682, 0, 0, -1, 0, 1, 0, 1, 0, 0) * CFrame.new(0, 5, 0) -- Offset behind NPC
 
 		local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out) -- Smooth 2-second tween
 		local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
